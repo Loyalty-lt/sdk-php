@@ -1,0 +1,62 @@
+{
+    "name": "loyaltylt/sdk",
+    "description": "Official PHP SDK for Loyalty.lt Partner API",
+    "version": "1.0.0",
+    "type": "library",
+    "keywords": [
+        "loyalty",
+        "php",
+        "sdk",
+        "api",
+        "pos",
+        "qr-login",
+        "points",
+        "rewards"
+    ],
+    "homepage": "https://loyalty.lt",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loyalty.lt",
+            "email": "developers@loyalty.lt",
+            "homepage": "https://loyalty.lt"
+        }
+    ],
+    "support": {
+        "email": "developers@loyalty.lt",
+        "docs": "https://docs.loyalty.lt/sdk/php",
+        "issues": "https://github.com/Loyalty-lt/sdk-php/issues"
+    },
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.8",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "LoyaltyLt\\SDK\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LoyaltyLt\\SDK\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyze": "phpstan analyse src --level=8",
+        "cs-check": "phpcs --standard=PSR12 src/"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

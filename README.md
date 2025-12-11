@@ -1,6 +1,6 @@
 # Loyalty.lt PHP SDK
 
-Official PHP SDK for [Loyalty.lt](https://loyalty.lt) Partner API.
+Official PHP SDK for [Loyalty.lt](https://loyalty.lt) Shop API.
 
 [![Latest Version](https://img.shields.io/packagist/v/loyaltylt/sdk.svg)](https://packagist.org/packages/loyaltylt/sdk)
 [![PHP Version](https://img.shields.io/packagist/php-v/loyaltylt/sdk.svg)](https://packagist.org/packages/loyaltylt/sdk)
@@ -43,8 +43,8 @@ print_r($shops['data']);
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `apiKey` | string | required | Partner API Key |
-| `apiSecret` | string | required | Partner API Secret |
+| `apiKey` | string | required | API Key |
+| `apiSecret` | string | required | API Secret |
 | `environment` | string | `production` | `production` or `staging` |
 | `locale` | string | `lt` | API locale (`lt`, `en`) |
 | `timeout` | int | `30` | Request timeout in seconds |

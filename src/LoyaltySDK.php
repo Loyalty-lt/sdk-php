@@ -59,7 +59,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // QR LOGIN (Partner API)
+    // QR LOGIN (Shop API)
     // ===================
 
     /**
@@ -98,7 +98,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // QR CARD SCAN (Partner API)
+    // QR CARD SCAN (Shop API)
     // ===================
 
     /**
@@ -123,7 +123,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // ABLY REAL-TIME (Partner API)
+    // ABLY REAL-TIME (Shop API)
     // ===================
 
     /**
@@ -138,7 +138,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // SHOPS (Partner API)
+    // SHOPS (Shop API)
     // ===================
 
     /**
@@ -151,7 +151,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // LOYALTY CARDS (Partner API)
+    // LOYALTY CARDS (Shop API)
     // ===================
 
     /**
@@ -191,7 +191,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // TRANSACTIONS (Partner API)
+    // TRANSACTIONS (Shop API)
     // ===================
 
     /**
@@ -222,7 +222,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // OFFERS (Partner API)
+    // OFFERS (Shop API)
     // ===================
 
     /**
@@ -280,7 +280,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // XML IMPORT (Partner API)
+    // XML IMPORT (Shop API)
     // ===================
 
     /**
@@ -315,7 +315,7 @@ class LoyaltySDK
     }
 
     // ===================
-    // SYSTEM (Partner API)
+    // SYSTEM (Shop API)
     // ===================
 
     /**

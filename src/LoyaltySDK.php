@@ -213,19 +213,6 @@ class LoyaltySDK
     }
 
     /**
-     * Deduct points
-     * POST /shop/transactions/deduct-points
-     */
-    public function deductPoints(int $cardId, int $points, ?string $description = null): array
-    {
-        return $this->request('POST', '/shop/transactions/deduct-points', [
-            'card_id' => $cardId,
-            'points' => $points,
-            'description' => $description ?? 'Points deduction',
-        ]);
-    }
-
-    /**
      * Get partner transactions
      * GET /shop/transactions
      */

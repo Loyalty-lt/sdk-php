@@ -131,7 +131,7 @@ $card = $sdk->getLoyaltyCard(123);
 
 // Get card by number
 $cardInfo = $sdk->getLoyaltyCardInfo([
-    'card_number' => 'LOYALTY123456'
+    'card_number' => '123-456-789'
 ]);
 
 // Get points balance
@@ -152,9 +152,6 @@ $transaction = $sdk->createTransaction([
     'description' => 'Purchase reward',
     'reference' => 'ORDER-12345',
 ]);
-
-// Deduct points
-$sdk->deductPoints(123, 100, 'Points redemption');
 
 // Get transactions
 $transactions = $sdk->getTransactions([
@@ -204,7 +201,7 @@ $stats = $sdk->getImportStats();
 use LoyaltyLt\SDK\Exceptions\LoyaltySDKException;
 
 try {
-    $result = $sdk->deductPoints(123, 10000);
+    $result = $sdk->getLoyaltyCardInfo(['card_number' => 'INVALID']);
 } catch (LoyaltySDKException $e) {
     echo "Error: " . $e->getMessage();
     echo "Code: " . $e->getErrorCode();

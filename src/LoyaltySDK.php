@@ -37,14 +37,13 @@ class LoyaltySDK
         $this->retries = $config['retries'] ?? self::DEFAULT_RETRIES;
         $this->debug = $config['debug'] ?? false;
 
+        // Base URL is determined by environment - not configurable
+        // production = https://api.loyalty.lt
+        // staging = https://staging-api.loyalty.lt
         $environment = $config['environment'] ?? 'production';
         $this->baseUrl = $environment === 'staging'
             ? 'https://staging-api.loyalty.lt'
             : 'https://api.loyalty.lt';
-
-        if (!empty($config['baseUrl'])) {
-            $this->baseUrl = rtrim($config['baseUrl'], '/');
-        }
 
         $this->httpClient = new Client([
             'timeout' => $this->timeout,

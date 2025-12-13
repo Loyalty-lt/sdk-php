@@ -238,12 +238,12 @@ public function register()
 // Usage in controller
 public function __construct(private LoyaltySDK $loyalty) {}
 
-public function awardPoints(Request $request)
+public function processTransaction(Request $request)
 {
     return $this->loyalty->createTransaction([
         'card_id' => $request->card_id,
         'amount' => $request->amount,
-        'points' => $request->points,
+        'shop_id' => $request->shop_id,
     ]);
 }
 ```

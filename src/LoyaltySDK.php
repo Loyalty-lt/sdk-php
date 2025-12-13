@@ -8,7 +8,7 @@ use LoyaltyLt\SDK\Exceptions\LoyaltySDKException;
 
 class LoyaltySDK
 {
-    private const VERSION = '2.0.0';
+    private const VERSION = '1.0.4';
     private const DEFAULT_TIMEOUT = 30;
     private const DEFAULT_RETRIES = 3;
 
@@ -204,15 +204,6 @@ class LoyaltySDK
     }
 
     /**
-     * Award points (alias for createTransaction)
-     * POST /shop/transactions/award-points
-     */
-    public function awardPoints(array $data): array
-    {
-        return $this->request('POST', '/shop/transactions/award-points', $data);
-    }
-
-    /**
      * Get partner transactions
      * GET /shop/transactions
      */
@@ -312,6 +303,190 @@ class LoyaltySDK
     public function getImportStats(): array
     {
         return $this->request('GET', '/shop/xml-import/stats');
+    }
+
+    // ===================
+    // GAMES (Shop API)
+    // ===================
+
+    /**
+     * List games for a shop
+     * GET /shop/games
+     */
+    public function listGames(int $shopId, array $filters = []): array
+    {
+        return $this->request('GET', '/shop/games', array_merge(['shop_id' => $shopId], $filters));
+    }
+
+    /**
+     * Get single game
+     * GET /shop/games/{id}
+     */
+    public function getGame(int $gameId, int $cardId): array
+    {
+        return $this->request('GET', "/shop/games/{$gameId}", ['card_id' => $cardId]);
+    }
+
+    /**
+     * Get games for a loyalty card
+     * GET /shop/cards/{cardId}/games
+     */
+    public function getCardGames(int $cardId, ?int $shopId = null): array
+    {
+        $params = $shopId ? ['shop_id' => $shopId] : [];
+        return $this->request('GET', "/shop/cards/{$cardId}/games", $params);
+    }
+
+    /**
+     * Get game progress
+     * GET /shop/games/{id}/progress
+     */
+    public function getGameProgress(int $gameId, int $cardId): array
+    {
+        return $this->request('GET', "/shop/games/{$gameId}/progress", ['card_id' => $cardId]);
+    }
+
+    /**
+     * Add stamps to a stamp card game
+     * POST /shop/games/{id}/add-stamps
+     */
+    public function addStamps(int $gameId, int $cardId, int $shopId, int $stampsCount = 1): array
+    {
+        return $this->request('POST', "/shop/games/{$gameId}/add-stamps", [
+            'card_id' => $cardId,
+            'shop_id' => $shopId,
+            'stamps_count' => $stampsCount,
+        ]);
+    }
+
+    /**
+     * Complete a stamp card game
+     * POST /shop/games/{id}/complete
+     */
+    public function completeGame(int $gameId, int $cardId): array
+    {
+        return $this->request('POST', "/shop/games/{$gameId}/complete", ['card_id' => $cardId]);
+    }
+
+    /**
+     * Restart a game
+     * POST /shop/games/{id}/restart
+     */
+    public function restartGame(int $gameId, int $cardId, int $shopId): array
+    {
+        return $this->request('POST', "/shop/games/{$gameId}/restart", [
+            'card_id' => $cardId,
+            'shop_id' => $shopId,
+        ]);
+    }
+
+    /**
+     * Get customer game history
+     * GET /shop/cards/{cardId}/games/history
+     */
+    public function getGameHistory(int $cardId, ?int $shopId = null): array
+    {
+        $params = $shopId ? ['shop_id' => $shopId] : [];
+        return $this->request('GET', "/shop/cards/{$cardId}/games/history", $params);
+    }
+
+    // ===================
+    // COUPONS (Shop API)
+    // ===================
+
+    /**
+     * List coupons
+     * GET /shop/coupons
+     */
+    public function listCoupons(array $filters = []): array
+    {
+        return $this->request('GET', '/shop/coupons', $filters);
+    }
+
+    /**
+     * Verify a coupon
+     * POST /shop/coupons/verify
+     */
+    public function verifyCoupon(string $couponCode, int $shopId): array
+    {
+        return $this->request('POST', '/shop/coupons/verify', [
+            'code' => $couponCode,
+            'shop_id' => $shopId,
+        ]);
+    }
+
+    /**
+     * Redeem a coupon
+     * POST /shop/coupons/redeem
+     */
+    public function redeemCoupon(int $couponId, int $shopId, ?int $selectedProductId = null, ?string $notes = null): array
+    {
+        return $this->request('POST', '/shop/coupons/redeem', [
+            'coupon_id' => $couponId,
+            'shop_id' => $shopId,
+            'selected_product_id' => $selectedProductId,
+            'notes' => $notes,
+        ]);
+    }
+
+    /**
+     * Set coupon to pending status
+     * POST /shop/coupons/pending
+     */
+    public function setCouponPending(int $couponId, int $shopId, ?int $selectedProductId = null): array
+    {
+        return $this->request('POST', '/shop/coupons/pending', [
+            'coupon_id' => $couponId,
+            'shop_id' => $shopId,
+            'selected_product_id' => $selectedProductId,
+        ]);
+    }
+
+    /**
+     * Cancel pending coupon
+     * POST /shop/coupons/cancel-pending
+     */
+    public function cancelPendingCoupon(int $couponId, int $shopId): array
+    {
+        return $this->request('POST', '/shop/coupons/cancel-pending', [
+            'coupon_id' => $couponId,
+            'shop_id' => $shopId,
+        ]);
+    }
+
+    /**
+     * Get coupons for a card
+     * GET /shop/coupons/card
+     */
+    public function getCardCoupons(int $shopId, ?int $cardId = null, ?int $userId = null): array
+    {
+        return $this->request('GET', '/shop/coupons/card', [
+            'shop_id' => $shopId,
+            'card_id' => $cardId,
+            'user_id' => $userId,
+        ]);
+    }
+
+    /**
+     * Get coupon products
+     * GET /shop/coupons/products
+     */
+    public function getCouponProducts(int $couponId): array
+    {
+        return $this->request('GET', '/shop/coupons/products', ['coupon_id' => $couponId]);
+    }
+
+    /**
+     * Calculate coupon discount
+     * POST /shop/coupons/calculate-discount
+     */
+    public function calculateCouponDiscount(string $couponCode, float $purchaseAmount, ?array $cartItems = null): array
+    {
+        return $this->request('POST', '/shop/coupons/calculate-discount', [
+            'coupon_code' => $couponCode,
+            'purchase_amount' => $purchaseAmount,
+            'cart_items' => $cartItems,
+        ]);
     }
 
     // ===================

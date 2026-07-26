@@ -65,7 +65,7 @@ echo $session['session_id'];
 echo $session['qr_code']; // Deep link for QR code
 echo $session['expires_at'];
 
-// Poll for status (or use Ably real-time)
+// Poll for status (or subscribe over Reverb)
 $status = $sdk->pollQrLogin($session['session_id']);
 
 if ($status['status'] === 'authenticated') {
@@ -96,15 +96,17 @@ if ($result['status'] === 'completed') {
 }
 ```
 
-### Real-time Updates with Ably
+### Real-time Updates (Laravel Reverb)
 
 ```php
-// Get Ably token
-$ablyToken = $sdk->getAblyToken($session['session_id']);
+// Reverb connection details — no per-session token is needed, the QR channels
+// are public and the unguessable session id is the secret.
+$config = $sdk->getRealtimeConfig();
 
-// Use with Ably client
-echo $ablyToken['token'];
-echo $ablyToken['channel'];
+echo $config['key'];                                       // Reverb app key (public)
+echo "wss://{$config['host']}:{$config['port']}";          // wss://ws.loyalty.lt:443
+echo "qr-login.{$session['session_id']}";                  // channel to subscribe to
+// Bind the `status_update` event with any Pusher-protocol client.
 ```
 
 ### Shops

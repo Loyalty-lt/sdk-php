@@ -122,18 +122,20 @@ class LoyaltySDK
     }
 
     // ===================
-    // ABLY REAL-TIME (Shop API)
+    // REALTIME (Shop API)
     // ===================
 
     /**
-     * Get Ably token for real-time updates
-     * POST /shop/ably/token
+     * Laravel Reverb connection details for real-time updates.
+     * GET /shop/realtime/config
+     *
+     * The QR channels are public — the unguessable session id in the channel
+     * name is the secret — so no per-session token is issued. Subscribe to
+     * `qr-login.{sessionId}` / `qr-card.{sessionId}` and bind `status_update`.
      */
-    public function getAblyToken(string $sessionId): array
+    public function getRealtimeConfig(): array
     {
-        return $this->request('POST', '/shop/ably/token', [
-            'session_id' => $sessionId,
-        ]);
+        return $this->request('GET', '/shop/realtime/config');
     }
 
     // ===================

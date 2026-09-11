@@ -264,11 +264,11 @@ class LoyaltySDK
 
     /**
      * Get offer categories
-     * GET /shop/categories
+     * GET /shop/products/categories
      */
     public function getCategories(): array
     {
-        return $this->request('GET', '/shop/categories');
+        return $this->request('GET', '/shop/products/categories');
     }
 
     // ===================

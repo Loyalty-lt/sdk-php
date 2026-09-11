@@ -498,6 +498,59 @@ class LoyaltySDK
      * Validate API credentials
      * POST /shop/validate-credentials
      */
+    // ===================
+    // REALTIME
+    // ===================
+
+    /**
+     * Wait on the QR login channel instead of polling it.
+     *
+     * With no callback it blocks until the session resolves and returns the final
+     * payload — on success that carries `token` and `user`. With a callback it is
+     * invoked as ($event, $payload) for every frame; return anything truthy to stop.
+     *
+     * Returns null if the session neither completed nor expired within $timeout.
+     *
+     *   $session = $sdk->generateQrLogin('Till 3', $shopId);
+     *   $result  = $sdk->subscribeQrLogin($session['session_id']);
+     *   if (($result['status'] ?? null) === 'authenticated') { $token = $result['token']; }
+     */
+    public function subscribeQrLogin(string $sessionId, ?callable $callback = null, int $timeout = 300): ?array
+    {
+        return $this->subscribe('qr-login.'.$sessionId, $callback, $timeout);
+    }
+
+    /**
+     * Wait on the QR card scan channel. Resolves with the frame carrying `card_data`.
+     */
+    public function subscribeQrCard(string $sessionId, ?callable $callback = null, int $timeout = 300): ?array
+    {
+        return $this->subscribe('qr-card.'.$sessionId, $callback, $timeout);
+    }
+
+    private function subscribe(string $channel, ?callable $callback, int $timeout): ?array
+    {
+        $config = $this->getRealtimeConfig();
+        $config = $config['data'] ?? $config;
+
+        $subscriber = new RealtimeSubscriber($config, $channel);
+
+        if ($callback !== null) {
+            return $subscriber->listen($callback, $timeout);
+        }
+
+        // Default: settle on the first frame that ends the session.
+        $terminal = ['authenticated', 'expired', 'failed', 'cancelled'];
+
+        return $subscriber->listen(function (string $event, array $payload) use ($terminal) {
+            if ($event === 'card_identified') {
+                return $payload;
+            }
+
+            return in_array($payload['status'] ?? null, $terminal, true) ? $payload : null;
+        }, $timeout);
+    }
+
     public function validateCredentials(): array
     {
         return $this->request('POST', '/shop/validate-credentials');

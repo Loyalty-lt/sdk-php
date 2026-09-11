@@ -1,7 +1,7 @@
 {
     "name": "loyaltylt/sdk",
     "description": "Official PHP SDK for Loyalty.lt Shop API",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "type": "library",
     "keywords": [
         "loyalty",
@@ -35,7 +35,8 @@
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "phpstan/phpstan": "^1.10",
-        "squizlabs/php_codesniffer": "^3.7"
+        "squizlabs/php_codesniffer": "^3.7",
+        "phrity/websocket": "^3.8"
     },
     "autoload": {
         "psr-4": {
@@ -58,5 +59,8 @@
         "optimize-autoloader": true
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "phrity/websocket": "Needed for subscribeQrLogin()/subscribeQrCard() \u2014 realtime instead of polling (^3.8)"
+    }
 }
